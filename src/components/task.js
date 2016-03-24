@@ -5,26 +5,18 @@ const HASH = 'QmWXZLoAmaiG6NzX5SSr6SetF9o2azsSnXYrY96G5Hpz6d';
 ipfs.setProvider();
 
 export default class Task extends Component {
-  constructor(props) {
-      super(props);
-      this.state = {
-          title: '',
-          description: '',
-      };
-  }
-
   render() {
-    return (
-        <div>
-            <h2>{this.state.title}</h2>
-            <p>{this.state.description}</p>
-        </div>
-    );
-  }
-  componentDidMount() {
-      ipfs.catJson(HASH, (err, data) => {
-          console.info(data);
-          this.setState(data);
-      });
+    if (this.props.error) {
+        return (<div className="error">{this.props.error.toString()}</div>);
+    } else if (this.props.loading) {
+        return (<div className="loading">loading....</div>);
+    } else {
+        return (
+            <div>
+                <h2>{this.props.title}</h2>
+                <p>{this.props.description}</p>
+            </div>
+        );
+    }
   }
 }
