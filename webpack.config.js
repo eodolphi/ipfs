@@ -1,6 +1,8 @@
 var path = require('path');
 var webpack = require('webpack');
 
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
   devtool: 'eval',
   entry: [
@@ -14,13 +16,20 @@ module.exports = {
     publicPath: '/static/'
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin()
   ],
   module: {
     loaders: [{
       test: /\.js$/,
       loaders: ['react-hot', 'babel'],
       include: path.join(__dirname, 'src')
+    }, {
+      loaders: ['babel', 'ether-loader'],
+      include: path.join(__dirname, 'src/contracts')
+    }, { 
+        test: /\.json$/, loader: "json"
     }]
+
   }
 };
